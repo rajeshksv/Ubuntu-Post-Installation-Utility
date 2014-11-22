@@ -1,0 +1,79 @@
+// First and foremost lets update our package list
+sudo apt-get update;
+
+// Next install apt-fast . It will boost download speeds of packages like crazy!
+sudo apt-get install aria2 curl;
+curl "http://ppa.launchpad.net/apt-fast/stable/ubuntu/pool/main/a/apt-fast/apt-fast_1.8.2-1~saucy1_amd64.deb" > apt-fast.deb;
+sudo dpkg -i apt-fast.deb;
+
+// Install wifi drivers - Atleast in my case needed - Not needed in 14.04+
+// sudo apt-fast install linux-headers-generic bcmwl-kernel-source;
+// sudo modprobe wl;
+// iwconfig;
+
+// Now Upgrade to new gnome shell - Stupid Ubuntu always comes with old gnome-shell
+sudo add-apt-repository ppa:gnome3-team/gnome3-staging && sudo add-apt-repository ppa:gnome3-team/gnome3 && sudo apt-get update && sudo apt-fast dist-upgrade ;
+sudo apt-fast install bijiben polari gnome-clocks gnome-weather gnome-maps gnome-music gnome-photos gnome-documents gnome-contacts epiphany-browser gnome-sushi gnome-boxes gnome-shell-extensions gnome-tweak-tool;
+// Better to reboot
+sudo reboot;
+
+// Now add all repos , update and then install packages
+sudo add-apt-repository ppa:webupd8team/java ; sudo add-apt-repository ppa:yorba/daily-builds;  sudo add-apt-repository ppa:moka/stable ; sudo add-apt-repository ppa:noobslab/icons; sudo add-apt-repository ppa:maarten-baert/simplescreenrecorder; sudo add-apt-repository ppa:atareao/atareao;
+sudo add-apt-repository ppa:bhdouglass/indicator-remindor ; sudo add-apt-repository ppa:otto-kesselgulasch/gimp
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ;
+wget -O - http://deb.opera.com/archive.key | sudo apt-key add -;
+sudo sh -c 'echo "deb http://deb.opera.com/opera/ stable non-free" >> /etc/apt/sources.list.d/opera.list';
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list';
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/kamilprusko/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/gnome-pomodoro.list"
+curl -kL https://raw.github.com/cstrap/monaco-font/master/install-font-ubuntu.sh | bash;
+ 
+sudo apt-get update;
+
+// Time to install our main packages as well as helper packages for others
+sudo apt-fast install google-chrome-unstable california orchis-gtk-theme moka-icon-theme moka-gtk-theme faba-icon-theme faba-colors faba-mono-icons stark-gtk-theme flashplugin-installer gettext pkg-config libglib2.0-0 libglib2.0-dev gnome-common zip automake autoconf intltool lm-sensors libgirepository1.0-dev gir1.2-glib-2.0 libgtk-3-0 libgtk-3-dev libxml2-dev libxtst-dev libdbus-1-dev libclutter-1.0-0 libclutter-1.0-dev  appdata-tools dh-autoreconf nautilus-dropbox libgstreamer-plugins-base1.0-dev mercurial python-support python-vte vim vlc mysql-server mysql-client apache2 oracle-java6-installer tomcat6 maven awoken-icon-theme nautilus-open-terminal simplescreenrecorder libavcodec-extra-* libavformat-extra-* simplescreenrecorder-lib:i386 ubuntu-restricted-extras gedit-plugins opera wallch libfolks-dev folks-common folks-tools valac easystroke memcached rabbitmq-server libapache2-mod-php5 powertop nautilus-pushbullet tree indicator-remindor gnome-pomodoro colordiff gimp ;
+
+
+// Few more debs
+curl "http://ppa.launchpad.net/gnome-terminator/ppa/ubuntu/pool/main/t/terminator/terminator_0.97_all.deb" > terminator.deb;
+sudo dpkg -i terminator.deb;
+
+curl "http://eclipse.stu.edu.tw/technology/epp/downloads/release/luna/SR1/eclipse-java-luna-SR1-linux-gtk-x86_64.tar.gz" > eclipse_luna.tar.gz
+tar -xvf eclipse_luna.tar.gz
+
+// some tweaks
+gsettings set org.gnome.settings-daemon.peripherals.touchpad horiz-scroll-enabled "false";
+// Disable recursive search
+gsettings set org.gnome.nautilus.preferences enable-interactive-search true;
+// Disable ctrl+alt+right/left/top/bottom - Will be useful in eclipse
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['']";
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['']";
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-up "['']";
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-down "['']";
+
+
+
+// Links - https://github.com/xtranophilist/gnome-shell-extension-sensors
+// https://bitbucket.org/mathematicalcoffee/maximus-gnome-shell-extension/issue/23/please-upgrade-to-38
+// https://github.com/raelgc/gedit-restore-tabs
+// https://code.google.com/p/gedit-pair-char-autocomplete/
+
+/*Tried adding acpi_backlight=vendor to boot parameter. Did not work. So I tried the recommendation for Intel HD Graphic Controllers.
+
+Created the file /usr/share/X11/xorg.conf.d/80-backlight.conf with below contents as recommended.
+
+Section "Device"
+    Identifier "Intel Graphics"
+    Driver "intel"
+    Option "AccelMethod" "sna"
+    Option "Backlight" "intel_backlight" # use your backlight that works here
+    BusID "PCI:0:2:0"
+EndSection
+*/
+
+// Tweaks
+// http://stackoverflow.com/questions/2743647/gigantic-tabs-in-eclipse-on-ubuntu
+// http://stackoverflow.com/questions/13423593/eclipse-4-2-juno-cannot-create-a-server-using-the-selected-type-in-tomcat-7
+
+// TODO
+// back up icon theme, gedit plugins, empathy themes, mouse cursor, sync config files to dropbox, terminator
+
